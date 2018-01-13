@@ -269,7 +269,27 @@ class App extends Component {
         );
       }
 
-      
+      return (
+        <View>
+          {topBar}
+          <View>
+            {header}
+            <ScrollView style={{backgroundColor: "white"}}>
+              <Container>
+                <Content>
+                  <ReactiveBase
+                    app="gitxplore-latest"
+                    type="gitxplore-latest"
+                    credentials="W7ZomvYgQ:df994896-a25d-4d4e-8724-e26659b93001"
+                    >
+                    
+                </ReactiveBase>
+              </Content>
+            </Container>
+          </ScrollView>
+        </View>
+      </View>
+    );
   }
 }
 
