@@ -131,6 +131,14 @@ class App extends Component {
     });
   }
 
+  renderTopics(data) {
+    if (data.topics.length > 0) {
+      return data.topics.slice(0, 3).map(topic => <Text style={{ borderRadius: 6, backgroundColor: primaryColor, color: "white", marginRight: 7, marginBottom: 5, padding: 5}} key={`${data.name}-${topic}`}>#{topic}</Text>);
+    } else {
+      return null;
+    }
+  }
+
 }
 
 export default App;
