@@ -229,6 +229,48 @@ class App extends Component {
 
     }
 
+    render() {
+      let { statusBarColor, isReady, showNav, topics } = this.state;
+
+      // const topBar = (
+      //   <View style={{paddingTop: Expo.Constants.statusBarHeight, backgroundColor: statusBarColor}}></View>
+      // );
+
+      const topBar = (
+        <StatusBar
+          backgroundColor={primaryColor}
+          barStyle="light-content"
+        />
+      )
+
+      const header = (
+        // <Header style={{backgroundColor: primaryColor}}>
+          // <Body>
+            <View style={{alignItems: "center", backgroundColor: primaryColor}} >
+              <Image
+                style={{height: 27, width: 170}}
+                source={{uri: "https://i.imgur.com/2onYRdN.png"}}
+              />
+            </View>
+          // </Body>
+        // </Header>
+      );
+
+      if (!isReady) {
+        return (
+          <Container>
+            {topBar}
+            {header}
+            <Content>
+              <Spinner color={primaryColor} />
+              <Text>Loading ...</Text>
+            </Content>
+          </Container>
+        );
+      }
+
+      
+  }
 }
 
 export default App;
