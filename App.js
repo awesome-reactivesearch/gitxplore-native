@@ -139,6 +139,26 @@ class App extends Component {
     }
   }
 
+  onAllData = (items, streamData, loadMore) => (
+		<FlatList
+			style={{ width: '100%' }}
+			data={items || []}
+			keyExtractor={item => item._id}
+			renderItem={({ item }) => (
+				<View style={{ margin: 5 }}>
+					<Text
+						style={{ flex: 1, fontWeight: 'bold' }}
+					>
+						{item.name}
+					</Text>
+					<Text>{item.name} - {item.stars}</Text>
+				</View>
+			)}
+      onEndReachedThreshold={0.5}
+      onEndReached={loadMore}
+		/>
+	);
+
 }
 
 export default App;
