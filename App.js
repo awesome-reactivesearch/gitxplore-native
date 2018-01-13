@@ -282,7 +282,20 @@ class App extends Component {
                     type="gitxplore-latest"
                     credentials="W7ZomvYgQ:df994896-a25d-4d4e-8724-e26659b93001"
                     >
-                    
+                      <View style={[S.container, S.column, styles.container]}>
+                    <View style={{ backgroundColor: primaryColor, paddingBottom: 20, paddingTop: 20 }}>
+                      <Button iconLeft style={{ alignSelf: "center", backgroundColor: "white" }} onPress={this.handleToggleFilters}>
+                        <Icon name="md-search" style={{ fontSize: 20, color: primaryColor }}/>
+                        <Text style={{ color: primaryColor }}>
+                          Toggle Filters
+                        </Text>
+                      </Button>
+                    </View>
+                    {this.renderControls()}
+                    <View style={[S.fullWidth, S.alignCenter, styles.results]}>
+                     
+                    </View>
+                  </View>
                 </ReactiveBase>
               </Content>
             </Container>
