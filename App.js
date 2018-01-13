@@ -110,6 +110,20 @@ class App extends Component {
     });
   }
 
+  toggleTopic(topic) {
+    const topics = [ ...this.state.topics ];
+    const index = topics.indexOf(topic);
+    let nextTopics = [];
+    if (index === -1) {
+      nextTopics = [ ...topics, topic ];
+    } else {
+      nextTopics = topics.slice(0, index).concat(topics.slice(index + 1));
+    }
+    this.setState({
+      topics: nextTopics
+    });
+  }
+
 
 }
 
