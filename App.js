@@ -159,6 +159,46 @@ class App extends Component {
 		/>
 	);
 
+  onData(data) {
+    return (
+      <View style={[S.fullWidth]}>
+        <Card>
+          <CardItem>
+            <Body style={{ alignItems: "center" }}>
+              <Thumbnail
+                source={{uri: data.avatar}}
+              />
+              <Text
+                onPress={() => web(data.url)}
+                style={{ fontWeight: "bold", color: primaryColor, paddingBottom: 5, paddingTop: 5 }}
+                >
+                  {data.owner}/{data.name}
+                </Text>
+                <Text style={{ paddingBottom: 15, textAlign: "center" }}>{data.description}</Text>
+                <View style={{flexDirection:"row", flexWrap:"wrap", paddingTop: 5, paddingBottom: 9}}>
+                  {this.renderTopics(data)}
+                </View>
+                <View style={{flexDirection:"row", flexWrap:"wrap", paddingBottom: 5}}>
+                  <Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(data.url)}>
+                    <Icon name="md-star" style={{ fontSize: 20, paddingRight: 10 }}/>
+                    {data.stars}
+                  </Text>
+                  <Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(data.url)}>
+                    <Icon name="md-git-branch" style={{ fontSize: 20 }}/>
+                    {data.forks}
+                  </Text>
+                  <Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(data.url)}>
+                    <Icon name="md-eye" style={{ fontSize: 20, paddingRight: 10 }}/>
+                    {data.watchers}
+                  </Text>
+                </View>
+              </Body>
+            </CardItem>
+          </Card>
+        </View>
+      );
+    }
+
 }
 
 export default App;
