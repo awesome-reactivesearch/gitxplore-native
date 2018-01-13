@@ -293,7 +293,18 @@ class App extends Component {
                     </View>
                     {this.renderControls()}
                     <View style={[S.fullWidth, S.alignCenter, styles.results]}>
-                     
+                      <ReactiveList
+                        dataField="language"
+                        componentId="ReactiveList"
+                        size={20}
+                        from={0}
+                        // onData={(res) => this.onData(res)}
+                        onAllData={this.onAllData}
+                        pagination
+                        react={{
+                          and: ["language", "topics"]
+                        }}
+                      />
                     </View>
                   </View>
                 </ReactiveBase>
