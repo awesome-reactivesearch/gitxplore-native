@@ -199,6 +199,36 @@ class App extends Component {
       );
     }
 
+    renderControls() {
+      let { showNav, topics } = this.state;
+
+      return (
+        <View style={[styles.controls, showNav ? styles.flex : styles.none]}>
+          <Text style={{ color: "white", paddingBottom: 10 }}>Language</Text>
+          <SingleDropdownList
+            componentId="language"
+            dataField="language.raw"
+            placeholder="Select"
+            size={100}
+          />
+          <View style={{ paddingBottom: 30 }}></View>
+          <Text style={{ color: "white", paddingBottom: 10 }}>Repo Topics</Text>
+          { /*
+          <MultiDropdownList
+            componentId="topics"
+            dataField="topics.raw"
+            placeholder="Select"
+            defaultSelected={topics}
+            size={1000}
+            queryFormat="and"
+            onValueChange={value => this.resetTopic(value)}
+          />
+          */ }
+        </View>
+      );
+
+    }
+
 }
 
 export default App;
