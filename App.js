@@ -124,6 +124,12 @@ class App extends Component {
     });
   }
 
+  resetTopic(topics) {
+    const nextTopics = topics || [];
+    this.setState({
+      topics: nextTopics
+    });
+  }
 
 }
 
