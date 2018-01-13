@@ -77,3 +77,32 @@ const styles = StyleSheet.create({
   },
 });
 
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      topics: [],
+      showNav: false,
+      isReady: false,
+      statusBarColor: primaryColor,
+    };
+    this.handleToggleFilters = this.handleToggleFilters.bind(this);
+    this.toggleTopic = this.toggleTopic.bind(this);
+    this.onData = this.onData.bind(this);
+    this.resetTopic = this.resetTopic.bind(this);
+    this.renderControls = this.renderControls.bind(this);
+  }
+
+  async componentWillMount() {
+    await Expo.Font.loadAsync({
+      "Roboto": require("native-base/Fonts/Roboto.ttf"),
+      "Roboto_medium": require("native-base/Fonts/Roboto_medium.ttf"),
+      "Ionicons": require("native-base/Fonts/Ionicons.ttf")
+    });
+
+    this.setState({ isReady: true });
+  }
+
+}
+
+export default App;
