@@ -103,6 +103,14 @@ class App extends Component {
     this.setState({ isReady: true });
   }
 
+  handleToggleFilters() {
+    const showNav = !this.state.showNav;
+    this.setState({
+      showNav
+    });
+  }
+
+
 }
 
 export default App;
