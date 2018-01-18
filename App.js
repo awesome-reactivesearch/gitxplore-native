@@ -139,81 +139,77 @@ class App extends Component {
     }
   }
 
+  itemCardMarkup = (item) => (
+    <View style={[S.fullWidth, { paddingHorizontal: 25, paddingVertical: 10 }]}>
+      <Card>
+        <CardItem>
+          <Body style={{ alignItems: "center" }}>
+            <Thumbnail
+              source={{uri: item.avatar}}
+            />
+            <Text
+              onPress={() => web(item.url)}
+              style={{ fontWeight: "bold", color: primaryColor, paddingBottom: 5, paddingTop: 5 }}
+              >
+                {item.owner}/{item.name}
+            </Text>
+            <Text style={{ paddingBottom: 15, textAlign: "center" }}>{item.description}</Text>
+            <View style={{flexDirection:"row", flexWrap:"wrap", paddingTop: 5, paddingBottom: 9}}>
+              {this.renderTopics(item)}
+            </View>
+            <View style={{flexDirection:"row", flexWrap:"wrap", paddingBottom: 5}}>
+              <Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(item.url)}>
+                <Icon name="md-star" style={{ fontSize: 20, paddingRight: 10 }}/>
+                {item.stars}
+              </Text>
+              <Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(item.url)}>
+                <Icon name="md-git-branch" style={{ fontSize: 20 }}/>
+                {item.forks}
+              </Text>
+              <Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(item.url)}>
+                <Icon name="md-eye" style={{ fontSize: 20, paddingRight: 10 }}/>
+                {item.watchers}
+              </Text>
+            </View>
+          </Body>
+        </CardItem>
+      </Card>
+    </View>
+  )
+
   onAllData = (items, streamData, loadMore) => (
 		<FlatList
 			style={{ width: '100%' }}
 			data={items || []}
 			keyExtractor={item => item._id}
-			renderItem={({ item }) => (
-				<View style={{ margin: 5 }}>
-					<Text
-						style={{ flex: 1, fontWeight: 'bold' }}
-					>
-						{item.name}
-					</Text>
-					<Text>{item.name} - {item.stars}</Text>
-				</View>
-			)}
+			renderItem={({ item }) => this.itemCardMarkup(item)}
       onEndReachedThreshold={0.5}
       onEndReached={loadMore}
 		/>
 	);
 
-  onData(data) {
+  onData(item) {
+    return this.itemCardMarkup(item);
+  }
+
+  renderControls() {
+    let { showNav, topics } = this.state;
+
     return (
-      <View style={[S.fullWidth]}>
-        <Card>
-          <CardItem>
-            <Body style={{ alignItems: "center" }}>
-              <Thumbnail
-                source={{uri: data.avatar}}
-              />
-              <Text
-                onPress={() => web(data.url)}
-                style={{ fontWeight: "bold", color: primaryColor, paddingBottom: 5, paddingTop: 5 }}
-                >
-                  {data.owner}/{data.name}
-                </Text>
-                <Text style={{ paddingBottom: 15, textAlign: "center" }}>{data.description}</Text>
-                <View style={{flexDirection:"row", flexWrap:"wrap", paddingTop: 5, paddingBottom: 9}}>
-                  {this.renderTopics(data)}
-                </View>
-                <View style={{flexDirection:"row", flexWrap:"wrap", paddingBottom: 5}}>
-                  <Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(data.url)}>
-                    <Icon name="md-star" style={{ fontSize: 20, paddingRight: 10 }}/>
-                    {data.stars}
-                  </Text>
-                  <Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(data.url)}>
-                    <Icon name="md-git-branch" style={{ fontSize: 20 }}/>
-                    {data.forks}
-                  </Text>
-                  <Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(data.url)}>
-                    <Icon name="md-eye" style={{ fontSize: 20, paddingRight: 10 }}/>
-                    {data.watchers}
-                  </Text>
-                </View>
-              </Body>
-            </CardItem>
-          </Card>
-        </View>
-      );
-    }
-
-    renderControls() {
-      let { showNav, topics } = this.state;
-
-      return (
-        <View style={[styles.controls, showNav ? styles.flex : styles.none]}>
-          <Text style={{ color: "white", paddingBottom: 10 }}>Language</Text>
+      <View style={[styles.controls, showNav ? styles.flex : styles.none]}>
+        <Text style={{ color: "white", paddingBottom: 10 }}>Language</Text>
+        <View style={{ borderWidth: 1, borderColor: '#8cd9af' }}>
           <SingleDropdownList
             componentId="language"
             dataField="language.raw"
             placeholder="Select"
             size={100}
           />
-          <View style={{ paddingBottom: 30 }}></View>
-          <Text style={{ color: "white", paddingBottom: 10 }}>Repo Topics</Text>
-          { /*
+        </View>
+        <View style={{ paddingBottom: 30 }}></View>
+        { /*
+        <Text style={{ color: "white", paddingBottom: 10 }}>Repo Topics</Text>
+        <View>
           <MultiDropdownList
             componentId="topics"
             dataField="topics.raw"
@@ -223,66 +219,67 @@ class App extends Component {
             queryFormat="and"
             onValueChange={value => this.resetTopic(value)}
           />
-          */ }
         </View>
-      );
+        */ }
+      </View>
+    );
 
+  }
+
+  render() {
+    let { statusBarColor, isReady, showNav, topics } = this.state;
+
+    const topBar = (
+      <View style={{paddingTop: Expo.Constants.statusBarHeight + 17, backgroundColor: statusBarColor}}></View>
+    );
+
+    // const topBar = (
+    //   <StatusBar
+    //     backgroundColor={primaryColor}
+    //     barStyle="light-content"
+    //   />
+    // )
+
+    const header = (
+      // <Header style={{backgroundColor: primaryColor}}>
+        // <Body>
+          <View style={{alignItems: "center", backgroundColor: primaryColor}} >
+            <Image
+              style={{height: 27, width: 170}}
+              source={{uri: "https://i.imgur.com/2onYRdN.png"}}
+            />
+          </View>
+        // </Body>
+      // </Header>
+    );
+
+    if (!isReady) {
+      return (
+        <Container>
+          {topBar}
+          {header}
+          <Content>
+            <Spinner color={primaryColor} />
+            <Text>Loading ...</Text>
+          </Content>
+        </Container>
+      );
     }
 
-    render() {
-      let { statusBarColor, isReady, showNav, topics } = this.state;
-
-      // const topBar = (
-      //   <View style={{paddingTop: Expo.Constants.statusBarHeight, backgroundColor: statusBarColor}}></View>
-      // );
-
-      const topBar = (
-        <StatusBar
-          backgroundColor={primaryColor}
-          barStyle="light-content"
-        />
-      )
-
-      const header = (
-        // <Header style={{backgroundColor: primaryColor}}>
-          // <Body>
-            <View style={{alignItems: "center", backgroundColor: primaryColor}} >
-              <Image
-                style={{height: 27, width: 170}}
-                source={{uri: "https://i.imgur.com/2onYRdN.png"}}
-              />
-            </View>
-          // </Body>
-        // </Header>
-      );
-
-      if (!isReady) {
-        return (
-          <Container>
-            {topBar}
-            {header}
-            <Content>
-              <Spinner color={primaryColor} />
-              <Text>Loading ...</Text>
-            </Content>
-          </Container>
-        );
-      }
-
-      return (
+    return (
+      <View>
+        {topBar}
         <View>
-          {topBar}
-          <View>
-            {header}
-            <ScrollView style={{backgroundColor: "white"}}>
-              <Container>
-                <Content>
-                  <ReactiveBase
-                    app="gitxplore-latest"
-                    type="gitxplore-latest"
-                    credentials="W7ZomvYgQ:df994896-a25d-4d4e-8724-e26659b93001"
-                    >
-                      <View style={[S.container, S.column, styles.container]}>
+          {header}
+          <ScrollView style={{backgroundColor: "white"}}>
+            <Container>
+              <Content>
+                <ReactiveBase
+                  app="gitxplore-latest"
+                  type="gitxplore-latest"
+                  credentials="W7ZomvYgQ:df994896-a25d-4d4e-8724-e26659b93001"
+                  >
+                    <View style={[S.container, S.column, styles.container]}>
                     <View style={{ backgroundColor: primaryColor, paddingBottom: 20, paddingTop: 20 }}>
                       <Button iconLeft style={{ alignSelf: "center", backgroundColor: "white" }} onPress={this.handleToggleFilters}>
                         <Icon name="md-search" style={{ fontSize: 20, color: primaryColor }}/>
@@ -304,6 +301,7 @@ class App extends Component {
                         react={{
                           and: ["language", "topics"]
                         }}
+                        showResultStats={false}
                       />
                     </View>
                   </View>
