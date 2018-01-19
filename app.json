@@ -1,5 +1,17 @@
 {
   "expo": {
-    "sdkVersion": "23.0.0"
-  }
+    "name": "GitXplore",
+    "icon": "./icon.png",
+    "version": "1.0.0",
+    "slug": "gitxplore",
+    "sdkVersion": "23.0.0",
+    "ios": {
+      "bundleIdentifier": "com.appbaseio.gitxplore"
+    },
+    "android": {
+      "package": "com.appbaseio.gitxplore"
+    }
+  },
+  "name": "gitxplore",
+  "displayName": "GitXplore"
 }
