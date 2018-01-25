@@ -1,5 +1,4 @@
-/* eslint-disable */
-import Expo from 'expo';
+import Expo from "expo";
 import React, { Component } from "react";
 import { Image, View, ScrollView, StyleSheet, Platform, Dimensions, StatusBar, FlatList, TouchableOpacity } from "react-native";
 import { Body, Header, Text, Title, Container, Content, Button, H3, Card, CardItem, Icon, Thumbnail, Spinner } from "native-base";
@@ -49,7 +48,7 @@ const commons = {
 
 const S = {
   fullWidth: {
-    width: width,
+    width: deviceWidth,
   },
   container: {
     flex: 1,
@@ -104,20 +103,11 @@ const styles = StyleSheet.create({
 });
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      topics: [],
-      showNav: false,
-      isReady: false,
-      statusBarColor: COLORS.primary,
-    };
-    this.handleToggleFilters = this.handleToggleFilters.bind(this);
-    this.toggleTopic = this.toggleTopic.bind(this);
-    this.onData = this.onData.bind(this);
-    this.resetTopic = this.resetTopic.bind(this);
-    this.renderControls = this.renderControls.bind(this);
-    this.renderTesterControls = this.renderTesterControls.bind(this);
+  state = {
+    topics: [],
+    showNav: false,
+    isReady: false,
+    statusBarColor: COLORS.primary,
   }
 
   async componentWillMount() {
@@ -130,43 +120,14 @@ class App extends Component {
     this.setState({ isReady: true });
   }
 
-  handleToggleFilters() {
+  handleToggleFilters = () => {
     const showNav = !this.state.showNav;
     this.setState({
       showNav
     });
   }
 
-  toggleTopic(topic) {
-    const topics = [ ...this.state.topics ];
-    const index = topics.indexOf(topic);
-    let nextTopics = [];
-    if (index === -1) {
-      nextTopics = [ ...topics, topic ];
-    } else {
-      nextTopics = topics.slice(0, index).concat(topics.slice(index + 1));
-    }
-    this.setState({
-      topics: nextTopics
-    });
-  }
-
-  resetTopic(topics) {
-    const nextTopics = topics || [];
-    this.setState({
-      topics: nextTopics
-    });
-  }
-
-  renderTopics(data) {
-    if (data.topics.length > 0) {
-      return data.topics.slice(0, 3).map(topic => <Text style={{ borderRadius: 6, backgroundColor: COLORS.primary, color: "white", marginRight: 7, marginBottom: 5, padding: 5}} key={`${data.name}-${topic}`}>#{topic}</Text>);
-    } else {
-      return null;
-    }
-  }
-
-  itemCardMarkup = (item) => (
+  itemCardMarkup = item => (
 		<TouchableOpacity onPress={() => web(item.url)}>
 			<View style={[S.fullWidth, { paddingHorizontal: 25, paddingVertical: 10 }]}>
 				<Card>
@@ -215,11 +176,11 @@ class App extends Component {
 		/>
 	);
 
-  onData(item) {
+  onData = item => {
     return this.itemCardMarkup(item);
 	}
 
-	renderControls() {
+	renderControls = () => {
 		let { showNav, topics } = this.state;
 		return (
 			<View style={[showNav ? styles.flex : styles.none, {height: deviceHeight, backgroundColor: COLORS.primary}]}>
@@ -276,65 +237,20 @@ class App extends Component {
 		)
 	}
 
-  renderTesterControls() {
-    let { showNav, topics } = this.state;
+  renderStatusBar = () => (
+		<StatusBar
+			backgroundColor={COLORS.primary}
+			barStyle="light-content"
+		/>
+	)
 
-    return (
-			<View style={[showNav ? styles.flex : styles.none, {height: deviceHeight, backgroundColor: COLORS.primary}]}>
-				<ScrollView>
-					<View style={{padding: 50, backgroundColor: "white", borderWidth: 5, borderColor: COLORS.secondary}}>
-						<Text>TEST</Text>
-					</View>
-					<View style={{padding: 50, backgroundColor: "white", borderWidth: 5, borderColor: COLORS.secondary}}>
-						<Text>TEST</Text>
-					</View>
-					<View style={{padding: 50, backgroundColor: "white", borderWidth: 5, borderColor: COLORS.secondary}}>
-						<Text>TEST</Text>
-					</View>
-					<View style={{padding: 50, backgroundColor: "white", borderWidth: 5, borderColor: COLORS.secondary}}>
-						<Text>TEST</Text>
-					</View>
-					<View style={{padding: 50, backgroundColor: "white", borderWidth: 5, borderColor: COLORS.secondary}}>
-						<Text>TEST</Text>
-					</View>
-					<View style={{padding: 50, backgroundColor: "white", borderWidth: 5, borderColor: COLORS.secondary}}>
-						<Text>TEST</Text>
-					</View>
-					<View style={{padding: 50, backgroundColor: "white", borderWidth: 5, borderColor: COLORS.secondary}}>
-						<Text>TEST</Text>
-					</View>
-					<View style={{padding: 50, backgroundColor: "white", borderWidth: 5, borderColor: COLORS.secondary}}>
-						<Text>TEST</Text>
-					</View>
-				</ScrollView>
-			</View>
-    );
-
-	}
-
-	  renderTopBarSpacer() {
-    // Fix status bar top space in Expo
-    if (typeof Expo !== "undefined" && Platform.OS === "android") {
-      return (
-        <View
-          style={{
-            paddingTop: StatusBar.currentHeight,
-            backgroundColor: COLORS.primary
-          }}
-        />
-      )
-    }
-
-    return null;
-  }
-
-  render() {
+  render = () => {
     let { statusBarColor, isReady, showNav, topics } = this.state;
 
     if (!isReady) {
       return (
         <View style={{flex:1, justifyContent: "center", alignItems: "center"}}>
-          {this.renderTopBarSpacer()}
+          {this.renderStatusBar()}
           <Spinner color={COLORS.primary} />
         </View>
       );
@@ -378,7 +294,7 @@ class App extends Component {
         credentials={APPBASE_CONFIG.credentials}
         type={APPBASE_CONFIG.type}
       >
-        {this.renderTopBarSpacer()}
+        {this.renderStatusBar()}
         {header}
 				{SearchComponent}
 				<View style={{ backgroundColor: COLORS.primary, paddingBottom: 20, paddingTop: 20 }}>
