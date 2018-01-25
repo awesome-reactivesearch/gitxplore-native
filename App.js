@@ -1,15 +1,39 @@
-import Expo from "expo";
-import React, { Component } from "react";
-import { Image, View, ScrollView, StyleSheet, Platform, Dimensions, StatusBar, FlatList, TouchableOpacity } from "react-native";
-import { Body, Header, Text, Title, Container, Content, Button, H3, Card, CardItem, Icon, Thumbnail, Spinner } from "native-base";
-import { web } from "react-native-communications";
+import Expo from 'expo';
+import React, { Component } from 'react';
+import {
+  Image,
+  View,
+  ScrollView,
+  StyleSheet,
+  Platform,
+  Dimensions,
+  StatusBar,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import {
+  Body,
+  Header,
+  Text,
+  Title,
+  Container,
+  Content,
+  Button,
+  H3,
+  Card,
+  CardItem,
+  Icon,
+  Thumbnail,
+  Spinner,
+} from 'native-base';
+import { web } from 'react-native-communications';
 import {
   ReactiveBase,
   DataSearch,
   SingleDropdownList,
   SingleDropdownRange,
-  ReactiveList
-} from "@appbaseio/reactivebase-native";
+  ReactiveList,
+} from '@appbaseio/reactivebase-native';
 
 var { height: deviceHeight, width: deviceWidth } = Dimensions.get('window');
 if (Platform.OS === 'android') {
@@ -18,33 +42,33 @@ if (Platform.OS === 'android') {
 
 const APPBASE_CONFIG = {
   app: 'gitxplore-latest',
-  type: "gitxplore-latest",
-  credentials: "W7ZomvYgQ:df994896-a25d-4d4e-8724-e26659b93001",
-}
+  type: 'gitxplore-latest',
+  credentials: 'W7ZomvYgQ:df994896-a25d-4d4e-8724-e26659b93001',
+};
 
 const COLORS = {
-  primary: "#3cb371",
-  secondary: "#79d2a1",
-  seperator: "#EEEEEE"
+  primary: '#3cb371',
+  secondary: '#79d2a1',
+  seperator: '#EEEEEE',
 };
 
 const commons = {
   padding1: {
-    padding: 10
+    padding: 10,
   },
   padding2: {
-    padding: 20
+    padding: 20,
   },
   padding3: {
-    padding: 30
+    padding: 30,
   },
   padding4: {
-    padding: 40
+    padding: 40,
   },
   padding5: {
-    padding: 50
+    padding: 50,
   },
-}
+};
 
 const S = {
   fullWidth: {
@@ -64,23 +88,23 @@ const S = {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 0
+    padding: 0,
   },
-	header: {
-    backgroundColor: COLORS.primary
+  header: {
+    backgroundColor: COLORS.primary,
   },
   headerIcon: {
     paddingLeft: 5,
     paddingRight: 10,
     paddingTop: 3,
-    color: COLORS.secondary
+    color: COLORS.secondary,
   },
   headerBody: {
     flex: 1,
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   headerTitle: {
-    color: COLORS.secondary
+    color: COLORS.secondary,
   },
   controls: {
     ...commons.padding2,
@@ -91,15 +115,15 @@ const styles = StyleSheet.create({
     ...commons.padding2,
   },
   none: {
-    display: "none"
+    display: 'none',
   },
   flex: {
-    display: "flex"
-	},
-	searchBooksContainer: {
-		paddingHorizontal: 20,
-		backgroundColor: COLORS.primary,
-	}
+    display: 'flex',
+  },
+  searchBooksContainer: {
+    paddingHorizontal: 20,
+    backgroundColor: COLORS.primary,
+  },
 });
 
 class App extends Component {
@@ -108,13 +132,13 @@ class App extends Component {
     showNav: false,
     isReady: false,
     statusBarColor: COLORS.primary,
-  }
+  };
 
   async componentWillMount() {
     await Expo.Font.loadAsync({
-      "Roboto": require("native-base/Fonts/Roboto.ttf"),
-      "Roboto_medium": require("native-base/Fonts/Roboto_medium.ttf"),
-      "Ionicons": require("native-base/Fonts/Ionicons.ttf")
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      Ionicons: require('native-base/Fonts/Ionicons.ttf'),
     });
 
     this.setState({ isReady: true });
@@ -123,133 +147,158 @@ class App extends Component {
   handleToggleFilters = () => {
     const showNav = !this.state.showNav;
     this.setState({
-      showNav
+      showNav,
     });
-  }
+  };
 
   itemCardMarkup = item => (
-		<TouchableOpacity onPress={() => web(item.url)}>
-			<View style={[S.fullWidth, { paddingHorizontal: 25, paddingVertical: 10 }]}>
-				<Card>
-					<CardItem>
-						<Body style={{ alignItems: "center" }}>
-							<Thumbnail
-								source={{uri: item.avatar}}
-							/>
-							<Text
-								onPress={() => web(item.url)}
-								style={{ fontWeight: "bold", color: COLORS.primary, paddingBottom: 5, paddingTop: 5 }}
-								>
-									{item.owner}/{item.name}
-							</Text>
-							<Text style={{ paddingBottom: 15, textAlign: "center" }}>{item.description}</Text>
+    <TouchableOpacity onPress={() => web(item.url)}>
+      <View style={[S.fullWidth, { paddingHorizontal: 25, paddingVertical: 10 }]}>
+        <Card>
+          <CardItem>
+            <Body style={{ alignItems: 'center' }}>
+              <Thumbnail source={{ uri: item.avatar }} />
+              <Text
+                onPress={() => web(item.url)}
+                style={{
+                  fontWeight: 'bold',
+                  color: COLORS.primary,
+                  paddingBottom: 5,
+                  paddingTop: 5,
+                }}
+              >
+                {item.owner}/{item.name}
+              </Text>
+              <Text style={{ paddingBottom: 15, textAlign: 'center' }}>{item.description}</Text>
 
-							<View style={{flexDirection:"row", flexWrap:"wrap", paddingBottom: 5}}>
-								<Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(item.url)}>
-									<Icon name="md-star" style={{ fontSize: 20, paddingRight: 10 }}/>
-									{item.stars}
-								</Text>
-								<Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(item.url)}>
-									<Icon name="md-git-branch" style={{ fontSize: 20 }}/>
-									{item.forks}
-								</Text>
-								<Text style={{ borderRadius: 6, padding: 5, marginRight: 10, backgroundColor: "#eff3f6" }} onPress={() => web(item.url)}>
-									<Icon name="md-eye" style={{ fontSize: 20, paddingRight: 10 }}/>
-									{item.watchers}
-								</Text>
-							</View>
-						</Body>
-					</CardItem>
-				</Card>
-			</View>
-		</TouchableOpacity>
-  )
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 5 }}>
+                <Text
+                  style={{
+                    borderRadius: 6,
+                    padding: 5,
+                    marginRight: 10,
+                    backgroundColor: '#eff3f6',
+                  }}
+                  onPress={() => web(item.url)}
+                >
+                  <Icon name="md-star" style={{ fontSize: 20, paddingRight: 10 }} />
+                  {item.stars}
+                </Text>
+                <Text
+                  style={{
+                    borderRadius: 6,
+                    padding: 5,
+                    marginRight: 10,
+                    backgroundColor: '#eff3f6',
+                  }}
+                  onPress={() => web(item.url)}
+                >
+                  <Icon name="md-git-branch" style={{ fontSize: 20 }} />
+                  {item.forks}
+                </Text>
+                <Text
+                  style={{
+                    borderRadius: 6,
+                    padding: 5,
+                    marginRight: 10,
+                    backgroundColor: '#eff3f6',
+                  }}
+                  onPress={() => web(item.url)}
+                >
+                  <Icon name="md-eye" style={{ fontSize: 20, paddingRight: 10 }} />
+                  {item.watchers}
+                </Text>
+              </View>
+            </Body>
+          </CardItem>
+        </Card>
+      </View>
+    </TouchableOpacity>
+  );
 
   onAllData = (items, streamData, loadMore) => (
-		<FlatList
-			style={{ width: '100%' }}
-			data={items || []}
-			keyExtractor={item => item._id}
-			renderItem={({ item }) => this.itemCardMarkup(item)}
+    <FlatList
+      style={{ width: '100%' }}
+      data={items || []}
+      keyExtractor={item => item._id}
+      renderItem={({ item }) => this.itemCardMarkup(item)}
       // onEndReachedThreshold={0.5}
       // onEndReached={loadMore}
-		/>
-	);
+    />
+  );
 
   onData = item => {
     return this.itemCardMarkup(item);
-	}
+  };
 
-	renderControls = () => {
-		let { showNav, topics } = this.state;
-		return (
-			<View style={[showNav ? styles.flex : styles.none, {height: deviceHeight, backgroundColor: COLORS.primary}]}>
-				<ScrollView>
+  renderControls = () => {
+    let { showNav, topics } = this.state;
+    return (
+      <View
+        style={[
+          showNav ? styles.flex : styles.none,
+          { height: deviceHeight, backgroundColor: COLORS.primary },
+        ]}
+      >
+        <ScrollView>
+          <View style={styles.controls}>
+            <Text style={{ color: 'white', paddingBottom: 10 }}>Language</Text>
+            <View style={{ borderWidth: 1, borderColor: '#8cd9af' }}>
+              <SingleDropdownList
+                title="Language"
+                componentId="language"
+                dataField="language.raw"
+                placeholder="Select"
+                defaultSelected="JavaScript"
+                size={30}
+              />
+            </View>
+          </View>
 
-					<View style={styles.controls}>
-						<Text style={{ color: "white", paddingBottom: 10 }}>Language</Text>
-						<View style={{ borderWidth: 1, borderColor: '#8cd9af' }}>
-								<SingleDropdownList
-										title="Language"
-										componentId="language"
-										dataField="language.raw"
-										placeholder="Select"
-										defaultSelected="JavaScript"
-										size={30}
-								/>
-						</View>
-					</View>
+          <View style={styles.controls}>
+            <Text style={{ color: 'white', paddingBottom: 10 }}>Select topics</Text>
+            <View style={{ borderWidth: 1, borderColor: '#8cd9af' }}>
+              <SingleDropdownList
+                title="Language"
+                componentId="topics"
+                dataField="topics"
+                placeholder="Select topics"
+                defaultSelected="react"
+                size={30}
+              />
+            </View>
+          </View>
 
-					<View style={styles.controls}>
-						<Text style={{ color: "white", paddingBottom: 10 }}>Select topics</Text>
-						<View style={{ borderWidth: 1, borderColor: '#8cd9af' }}>
-								<SingleDropdownList
-										title="Language"
-										componentId="topics"
-										dataField="topics"
-                    placeholder="Select topics"
-                    defaultSelected="react"
-										size={30}
-								/>
-						</View>
-					</View>
+          <View style={styles.controls}>
+            <Text style={{ color: 'white', paddingBottom: 10 }}>Repo last active</Text>
+            <View style={{ borderWidth: 1, borderColor: '#8cd9af' }}>
+              <SingleDropdownRange
+                title="Repo last active"
+                componentId="pushed"
+                dataField="pushed"
+                placeholder="Repo last active"
+                filterLabel="Last Active"
+                data={[
+                  { start: 'now-1M', end: 'now', label: 'Last 30 days' },
+                  { start: 'now-6M', end: 'now', label: 'Last 6 months' },
+                  { start: 'now-1y', end: 'now', label: 'Last year' },
+                ]}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  };
 
-					<View style={styles.controls}>
-						<Text style={{ color: "white", paddingBottom: 10 }}>Repo last active</Text>
-						<View style={{ borderWidth: 1, borderColor: '#8cd9af' }}>
-								<SingleDropdownRange
-										title="Repo last active"
-										componentId="pushed"
-										dataField="pushed"
-										placeholder="Repo last active"
-										filterLabel="Last Active"
-										data={[
-												{ start: 'now-1M', end: 'now', label: 'Last 30 days' },
-												{ start: 'now-6M', end: 'now', label: 'Last 6 months' },
-												{ start: 'now-1y', end: 'now', label: 'Last year' },
-										]}
-								/>
-						</View>
-					</View>
-
-				</ScrollView>
-			</View>
-		)
-	}
-
-  renderStatusBar = () => (
-		<StatusBar
-			backgroundColor={COLORS.primary}
-			barStyle="light-content"
-		/>
-	)
+  renderStatusBar = () => <StatusBar backgroundColor={COLORS.primary} barStyle="light-content" />;
 
   render = () => {
     let { statusBarColor, isReady, showNav, topics } = this.state;
 
     if (!isReady) {
       return (
-        <View style={{flex:1, justifyContent: "center", alignItems: "center"}}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           {this.renderStatusBar()}
           <Spinner color={COLORS.primary} />
         </View>
@@ -257,34 +306,27 @@ class App extends Component {
     }
 
     const header = (
-			<View style={{alignItems: "center", backgroundColor: COLORS.primary, padding: 15}} >
-				<Image
-					style={{height: 27, width: 170}}
-					source={{uri: "https://i.imgur.com/2onYRdN.png"}}
-				/>
-			</View>
+      <View style={{ alignItems: 'center', backgroundColor: COLORS.primary, padding: 15 }}>
+        <Image
+          style={{ height: 27, width: 170 }}
+          source={{ uri: 'https://i.imgur.com/2onYRdN.png' }}
+        />
+      </View>
     );
 
     const SearchComponent = (
       <View style={styles.searchBooksContainer}>
-				<View style={{ backgroundColor: COLORS.secondary }}>
-					<TouchableOpacity>
-						<DataSearch
-							componentId="repo"
-							dataField={[
-								"name",
-								"description",
-								"name",
-								"fullname",
-								"owner",
-								"topics",
-							]}
-							// debounce={300}
-							autosuggest={false}
-							placeholder="🔍  Search Repos"
-						/>
-					</TouchableOpacity>
-				</View>
+        <View style={{ backgroundColor: COLORS.secondary }}>
+          <TouchableOpacity>
+            <DataSearch
+              componentId="repo"
+              dataField={['name', 'description', 'name', 'fullname', 'owner', 'topics']}
+              // debounce={300}
+              autosuggest={false}
+              placeholder="🔍  Search Repos"
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
 
@@ -296,28 +338,34 @@ class App extends Component {
       >
         {this.renderStatusBar()}
         {header}
-				{SearchComponent}
-				<View style={{ backgroundColor: COLORS.primary, paddingBottom: 20, paddingTop: 20 }}>
-					<TouchableOpacity onPress={this.handleToggleFilters} style={{
-						padding:10,
-						borderRadius:7,
-						flex: 0,
-						width: 135,
-						alignSelf: "center",
-						backgroundColor: "white",
-						}}>
-							<Text style={{ color: COLORS.primary, alignSelf: "center", textAlign: "center" }}>
-								Toggle Filters
-							</Text>
-
-					</TouchableOpacity>
-				</View>
-				{this.renderControls()}
+        {SearchComponent}
+        <View style={{ backgroundColor: COLORS.primary, paddingBottom: 20, paddingTop: 20 }}>
+          <TouchableOpacity
+            onPress={this.handleToggleFilters}
+            style={{
+              padding: 10,
+              borderRadius: 7,
+              flex: 0,
+              width: 135,
+              alignSelf: 'center',
+              backgroundColor: 'white',
+            }}
+          >
+            <Text
+              style={{
+                color: COLORS.primary,
+                alignSelf: 'center',
+                textAlign: 'center',
+              }}
+            >
+              Toggle Filters
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {this.renderControls()}
         <ScrollView>
           <View style={[styles.container, styles.column]}>
-            <View
-              style={[styles.fullWidth, styles.alignCenter]}
-            >
+            <View style={[styles.fullWidth, styles.alignCenter]}>
               <ReactiveList
                 componentId="ReactiveList"
                 dataField="language"
@@ -326,21 +374,21 @@ class App extends Component {
                 pagination
                 paginationAt="bottom"
                 react={{
-									and: ["language", "topics", "pushed", "repo"]
-								}}
-								showResultStats={false}
-								defaultQuery={() => ({
-									query: {
-										match_all: {},
-									}
-								})}
+                  and: ['language', 'topics', 'pushed', 'repo'],
+                }}
+                showResultStats={false}
+                defaultQuery={() => ({
+                  query: {
+                    match_all: {},
+                  },
+                })}
               />
             </View>
           </View>
         </ScrollView>
       </ReactiveBase>
     );
-  }
+  };
 }
 
 export default App;
