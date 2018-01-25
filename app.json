@@ -5,12 +5,16 @@
     "version": "1.0.0",
     "slug": "gitxplore",
     "sdkVersion": "23.0.0",
+    "primaryColor": "#3cb371",
     "ios": {
       "bundleIdentifier": "com.appbaseio.gitxplore"
     },
     "android": {
       "package": "com.appbaseio.gitxplore"
-    }
+    },
+    "androidStatusBar": {
+			"backgroundColor": "#3cb371"
+		}
   },
   "name": "gitxplore",
   "displayName": "GitXplore"
