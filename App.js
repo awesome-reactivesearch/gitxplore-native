@@ -22,7 +22,6 @@ import {
   H3,
   Card,
   CardItem,
-  Icon,
   Thumbnail,
   Spinner,
 } from 'native-base';
@@ -34,6 +33,8 @@ import {
   SingleDropdownRange,
   ReactiveList,
 } from '@appbaseio/reactivebase-native';
+
+import { Ionicons as Icon, MaterialCommunityIcons } from '@expo/vector-icons';
 
 var { height: deviceHeight, width: deviceWidth } = Dimensions.get('window');
 if (Platform.OS === 'android') {
@@ -47,9 +48,15 @@ const APPBASE_CONFIG = {
 };
 
 const COLORS = {
-  primary: '#3cb371',
-  secondary: '#79d2a1',
+  primary: 'white',
+  secondary: '#f8f8f8',
+  resultslist: 'white',
   seperator: '#EEEEEE',
+  blue: '#007AFF',
+  lightblue: '#cce5ff',
+  cardtitle: '#404040',
+  carddesc: '#737373',
+  bluecard: '#739ffc',
 };
 
 const commons = {
@@ -91,7 +98,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   header: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.secondary,
   },
   headerIcon: {
     paddingLeft: 5,
@@ -131,7 +138,7 @@ class App extends Component {
     topics: [],
     showNav: false,
     isReady: false,
-    statusBarColor: COLORS.primary,
+    statusBarColor: COLORS.secondary,
   };
 
   async componentWillMount() {
@@ -152,69 +159,156 @@ class App extends Component {
   };
 
   itemCardMarkup = item => (
-    <TouchableOpacity onPress={() => web(item.url)}>
-      <View style={[S.fullWidth, { paddingHorizontal: 25, paddingVertical: 10 }]}>
+    <TouchableOpacity onPress={() => web(item.url)} style={{ width: '100%' }}>
+      <View style={{ paddingHorizontal: 10, paddingVertical: 10, width: '100%' }}>
         <Card>
           <CardItem>
-            <Body style={{ alignItems: 'center' }}>
-              <Thumbnail source={{ uri: item.avatar }} />
-              <Text
-                onPress={() => web(item.url)}
+            <Body
+              style={{
+                alignItems: 'center',
+                flex: 1,
+                overflow: 'hidden',
+                // backgroundColor: 'lightgrey',
+              }}
+            >
+              <View
                 style={{
-                  fontWeight: 'bold',
-                  color: COLORS.primary,
-                  paddingBottom: 5,
-                  paddingTop: 5,
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  flex: 1,
+                  width: '100%',
                 }}
               >
-                {item.owner}/{item.name}
+                <Thumbnail source={{ uri: item.avatar }} />
+                <View style={{ flexDirection: 'column', flex: 1 }}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: COLORS.cardtitle,
+                      paddingTop: 8,
+                      justifyContent: 'flex-start',
+                      paddingLeft: 10,
+                    }}
+                  >
+                    {item.name}
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: COLORS.carddesc,
+                      justifyContent: 'flex-start',
+                      paddingLeft: 10,
+                    }}
+                  >
+                    @{item.owner}
+                  </Text>
+                </View>
+              </View>
+              <Text
+                style={{
+                  paddingBottom: 15,
+                  textAlign: 'left',
+                  color: COLORS.carddesc,
+                  paddingVertical: 25,
+                }}
+              >
+                {item.description}
               </Text>
-              <Text style={{ paddingBottom: 15, textAlign: 'center' }}>{item.description}</Text>
 
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 5 }}>
-                <Text
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-end',
+                  width: '100%',
+                }}
+              >
+                <View
                   style={{
-                    borderRadius: 6,
-                    padding: 5,
-                    marginRight: 10,
-                    backgroundColor: '#eff3f6',
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    paddingBottom: 5,
                   }}
-                  onPress={() => web(item.url)}
                 >
-                  <Icon name="md-star" style={{ fontSize: 20, paddingRight: 10 }} />
-                  {item.stars}
-                </Text>
-                <Text
-                  style={{
-                    borderRadius: 6,
-                    padding: 5,
-                    marginRight: 10,
-                    backgroundColor: '#eff3f6',
-                  }}
-                  onPress={() => web(item.url)}
-                >
-                  <Icon name="md-git-branch" style={{ fontSize: 20 }} />
-                  {item.forks}
-                </Text>
-                <Text
-                  style={{
-                    borderRadius: 6,
-                    padding: 5,
-                    marginRight: 10,
-                    backgroundColor: '#eff3f6',
-                  }}
-                  onPress={() => web(item.url)}
-                >
-                  <Icon name="md-eye" style={{ fontSize: 20, paddingRight: 10 }} />
-                  {item.watchers}
-                </Text>
+                  <Icon
+                    name="md-git-branch"
+                    style={{ fontSize: 20, paddingRight: 3, color: COLORS.bluecard }}
+                  />
+                  <Text style={{ fontSize: 15, color: COLORS.carddesc }}>
+                    {this.kFormatter(item.forks)}
+                  </Text>
+                  <Icon
+                    name="md-eye"
+                    style={{
+                      fontSize: 20,
+                      paddingLeft: 15,
+                      paddingRight: 3,
+                      color: COLORS.bluecard,
+                    }}
+                  />
+                  <Text style={{ fontSize: 15, color: COLORS.carddesc }}>
+                    {this.kFormatter(item.watchers)}
+                  </Text>
+                </View>
+                <View>
+                  <Button
+                    style={{
+                      padding: 5,
+                      height: 30,
+                      borderRadius: 15,
+                      backgroundColor: COLORS.bluecard,
+                      marginBottom: 5,
+                    }}
+                    onPress={() => web(item.url)}
+                  >
+                    <Text>View</Text>
+                  </Button>
+                </View>
               </View>
             </Body>
+            <View
+              style={{
+                position: 'absolute',
+                top: -30,
+                right: -30,
+                backgroundColor: '#fee7e9',
+                height: 60,
+                width: 60,
+                borderRadius: 30,
+                zIndex: 98,
+              }}
+            />
           </CardItem>
+          <Icon
+            name="md-star"
+            style={{
+              position: 'absolute',
+              fontSize: 15,
+              backgroundColor: '#fee7e9',
+              color: '#fa9ea8',
+              top: 5,
+              right: 5,
+            }}
+          />
+          <Text
+            style={{
+              position: 'absolute',
+              top: 5,
+              right: 35,
+              color: COLORS.carddesc,
+            }}
+          >
+            {this.kFormatter(item.stars)}
+          </Text>
         </Card>
       </View>
     </TouchableOpacity>
   );
+
+  kFormatter = num => (num > 100 ? (num / 1000).toFixed(1) + 'k' : num);
 
   onAllData = (items, streamData, loadMore) => (
     <FlatList
@@ -237,13 +331,16 @@ class App extends Component {
       <View
         style={[
           showNav ? styles.flex : styles.none,
-          { height: deviceHeight, backgroundColor: COLORS.primary },
+          {
+            height: deviceHeight,
+            backgroundColor: COLORS.primary,
+          },
         ]}
       >
         <ScrollView>
           <View style={styles.controls}>
             <Text style={{ color: 'white', paddingBottom: 10 }}>Language</Text>
-            <View style={{ borderWidth: 1, borderColor: '#8cd9af' }}>
+            <View style={{ borderWidth: 1, borderColor: COLORS.lightblue }}>
               <SingleDropdownList
                 title="Language"
                 componentId="language"
@@ -257,7 +354,7 @@ class App extends Component {
 
           <View style={styles.controls}>
             <Text style={{ color: 'white', paddingBottom: 10 }}>Select topics</Text>
-            <View style={{ borderWidth: 1, borderColor: '#8cd9af' }}>
+            <View style={{ borderWidth: 1, borderColor: COLORS.lightblue }}>
               <SingleDropdownList
                 title="Language"
                 componentId="topics"
@@ -271,7 +368,7 @@ class App extends Component {
 
           <View style={styles.controls}>
             <Text style={{ color: 'white', paddingBottom: 10 }}>Repo last active</Text>
-            <View style={{ borderWidth: 1, borderColor: '#8cd9af' }}>
+            <View style={{ borderWidth: 1, borderColor: COLORS.lightblue }}>
               <SingleDropdownRange
                 title="Repo last active"
                 componentId="pushed"
@@ -291,9 +388,10 @@ class App extends Component {
     );
   };
 
-  renderStatusBar = () => <StatusBar backgroundColor={COLORS.primary} barStyle="light-content" />;
+  renderStatusBar = () => <StatusBar backgroundColor={COLORS.secondary} barStyle="dark-content" />;
 
   render = () => {
+
     let { statusBarColor, isReady, showNav, topics } = this.state;
 
     if (!isReady) {
@@ -306,24 +404,30 @@ class App extends Component {
     }
 
     const header = (
-      <View style={{ alignItems: 'center', backgroundColor: COLORS.primary, padding: 15 }}>
-        <Image
-          style={{ height: 27, width: 170 }}
-          source={{ uri: 'https://i.imgur.com/2onYRdN.png' }}
-        />
-      </View>
-    );
-
-    const SearchComponent = (
-      <View style={styles.searchBooksContainer}>
-        <View style={{ backgroundColor: COLORS.secondary }}>
-          <TouchableOpacity>
-            <DataSearch
-              componentId="repo"
-              dataField={['name', 'description', 'name', 'fullname', 'owner', 'topics']}
-              // debounce={300}
-              autosuggest={false}
-              placeholder="🔍  Search Repos"
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          backgroundColor: COLORS.secondary,
+          padding: 20,
+          borderBottomColor: COLORS.seperator,
+          borderBottomWidth: 0.5,
+        }}
+      >
+        <View style={{ backgroundColor: '#F8F8F8', width: deviceWidth - 75 }}>
+          <DataSearch
+            componentId="repo"
+            dataField={['name', 'description', 'name', 'fullname', 'owner', 'topics']}
+            // debounce={300}
+            autosuggest={false}
+            placeholder="🔍  Search Repos"
+          />
+        </View>
+        <View>
+          <TouchableOpacity onPress={this.handleToggleFilters}>
+            <MaterialCommunityIcons
+              name={`${showNav ? 'filter' : 'filter-outline'}`}
+              style={{ fontSize: 28, color: COLORS.blue, paddingLeft: 12 }}
             />
           </TouchableOpacity>
         </View>
@@ -336,56 +440,45 @@ class App extends Component {
         credentials={APPBASE_CONFIG.credentials}
         type={APPBASE_CONFIG.type}
       >
-        {this.renderStatusBar()}
-        {header}
-        {SearchComponent}
-        <View style={{ backgroundColor: COLORS.primary, paddingBottom: 20, paddingTop: 20 }}>
-          <TouchableOpacity
-            onPress={this.handleToggleFilters}
-            style={{
-              padding: 10,
-              borderRadius: 7,
-              flex: 0,
-              width: 135,
-              alignSelf: 'center',
-              backgroundColor: 'white',
-            }}
-          >
-            <Text
-              style={{
-                color: COLORS.primary,
-                alignSelf: 'center',
-                textAlign: 'center',
-              }}
-            >
-              Toggle Filters
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {this.renderControls()}
-        <ScrollView>
-          <View style={[styles.container, styles.column]}>
-            <View style={[styles.fullWidth, styles.alignCenter]}>
-              <ReactiveList
-                componentId="ReactiveList"
-                dataField="language"
-                size={5}
-                onAllData={this.onAllData}
-                pagination
-                paginationAt="bottom"
-                react={{
-                  and: ['language', 'topics', 'pushed', 'repo'],
-                }}
-                showResultStats={false}
-                defaultQuery={() => ({
-                  query: {
-                    match_all: {},
+        <Container>
+          {this.renderStatusBar()}
+          {header}
+          {this.renderControls()}
+          <ScrollView>
+            <View style={[styles.container, styles.column]}>
+              <View
+                style={[
+                  styles.fullWidth,
+                  styles.alignCenter,
+                  {
+                    backgroundColor: COLORS.resultslist,
+                    paddingHorizontal: 5,
+                    marginHorizontal: 5,
+                    paddingTop: 15,
                   },
-                })}
-              />
+                ]}
+              >
+                <ReactiveList
+                  componentId="ReactiveList"
+                  dataField="language"
+                  size={5}
+                  onAllData={this.onAllData}
+                  pagination
+                  paginationAt="bottom"
+                  react={{
+                    and: ['language', 'topics', 'pushed', 'repo'],
+                  }}
+                  showResultStats={false}
+                  defaultQuery={() => ({
+                    query: {
+                      match_all: {},
+                    },
+                  })}
+                />
+              </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </Container>
       </ReactiveBase>
     );
   };
