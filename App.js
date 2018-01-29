@@ -391,6 +391,7 @@ class App extends Component {
   renderStatusBar = () => <StatusBar backgroundColor={COLORS.secondary} barStyle="dark-content" />;
 
   render = () => {
+    const iOS = Platform.OS === 'ios';
 
     let { statusBarColor, isReady, showNav, topics } = this.state;
 
@@ -410,6 +411,7 @@ class App extends Component {
           alignItems: 'center',
           backgroundColor: COLORS.secondary,
           padding: 20,
+          paddingTop: iOS ? 30 : 20,
           borderBottomColor: COLORS.seperator,
           borderBottomWidth: 0.5,
         }}
