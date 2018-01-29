@@ -15,19 +15,20 @@
   },
   "dependencies": {
     "@appbaseio/reactivebase-native": "^0.3.1",
+    "@expo/vector-icons": "^6.2.2",
     "expo": "^23.0.4",
     "react": "16.0.0",
     "react-native": "0.50.3",
     "react-native-communications": "^2.2.1"
   },
   "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.5.1",
     "jest-expo": "23.0.0",
     "react-native-scripts": "1.8.1",
-    "react-test-renderer": "16.0.0",
-		"eslint": "^4.10.0",
-		"eslint-config-airbnb": "^16.1.0",
-		"eslint-plugin-babel": "^4.1.2",
-		"eslint-plugin-jsx-a11y": "^6.0.3",
-		"eslint-plugin-react": "^7.5.1"
-	}
+    "react-test-renderer": "16.0.0"
+  }
 }
