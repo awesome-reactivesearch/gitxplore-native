@@ -140,7 +140,7 @@ class App extends Component {
     showNav: false,
     isReady: false,
     statusBarColor: COLORS.secondary,
-    selected1: 'key1',
+    sortBy: 'bestMatch',
   };
 
   async componentWillMount() {
@@ -155,7 +155,7 @@ class App extends Component {
 
   onValueChange = value => {
     this.setState({
-      selected1: value,
+      sortBy: value,
     });
   };
 
@@ -170,7 +170,7 @@ class App extends Component {
     <TouchableOpacity onPress={() => web(item.url)} style={{ width: '100%' }}>
       <View
         style={{
-          paddingHorizontal: 10,
+          paddingHorizontal: 4,
           paddingVertical: 10,
           width: '100%',
           overflow: 'hidden',
@@ -466,6 +466,58 @@ class App extends Component {
           <ScrollView>
             <View style={[styles.container, styles.column]}>
               <View
+                style={{
+                  alignSelf: 'flex-end',
+                  paddingTop: 10,
+                  paddingRight: 15,
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <View
+                  style={{
+                    padding: 15,
+                    backgroundColor: COLORS.bluecard,
+                  }}
+                >
+                  <Text style={{ color: 'white' }}>Sort by</Text>
+                </View>
+                <View
+                  style={{
+                    borderWidth: 1,
+                    borderColor: COLORS.lightblue,
+                    // backgroundColor: '#e6f2ff',
+                    width: 150,
+                  }}
+                >
+                  <Picker
+                    iosHeader="Sort by"
+                    mode="dropdown"
+                    placeholder="Sort by"
+                    selectedValue={this.state.sortBy}
+                    onValueChange={this.onValueChange}
+                  >
+                    <Picker.Item label="Best Match" value="bestMatch" key="bestMatch" />
+                    <Picker.Item label="Most Stars" value="mostStars" key="mostStars" />
+                    {/*
+                    <Picker.Item label="Fewest Stars" value="fewestStars" key="fewestStars" />
+                    */}
+                    <Picker.Item label="Most Forks" value="mostForks" key="mostForks" />
+                    <Picker.Item
+                      label="Recently Updated"
+                      value="recentlyUpdated"
+                      key="recentlyUpdated"
+                    />
+                    {/*
+                    <Picker.Item label="A to Z" value="atoz" key="atoz" />
+                    <Picker.Item label="Z to A" value="ztoa" key="ztoa" />
+                    */}
+                  </Picker>
+                </View>
+              </View>
+              <View
                 style={[
                   styles.fullWidth,
                   styles.alignCenter,
@@ -473,7 +525,7 @@ class App extends Component {
                     backgroundColor: COLORS.resultslist,
                     paddingHorizontal: 5,
                     marginHorizontal: 5,
-                    paddingTop: 15,
+                    paddingTop: 5,
                   },
                 ]}
               >
@@ -488,55 +540,102 @@ class App extends Component {
                     and: ['language', 'topics', 'pushed', 'repo'],
                   }}
                   showResultStats={false}
-                  defaultQuery={() => ({
-                    query: {
-                      match_all: {},
-                    },
-                  })}
+                  defaultQuery={() => {
+                    let { sortBy } = this.state;
+
+                    let query = {
+                      query: {
+                        match_all: {},
+                      },
+                    };
+                    
+                    if (sortBy === 'mostStars') {
+                      query = {
+                        query: {
+                          match_all: {},
+                        },
+                        sort: [
+                          {
+                            stars: {
+                              order: 'desc',
+                            },
+                          },
+                        ],
+                      };
+                    } else if (sortBy === 'fewestStars') {
+                      query = {
+                        query: {
+                          match_all: {},
+                        },
+                        sort: [
+                          {
+                            stars: {
+                              order: 'asc',
+                            },
+                          },
+                        ],
+                      };
+                    } else if (sortBy === 'mostForks') {
+                      query = {
+                        query: {
+                          match_all: {},
+                        },
+                        sort: [
+                          {
+                            forks: {
+                              order: 'desc',
+                            },
+                          },
+                        ],
+                      };
+                    } else if (sortBy === 'recentlyUpdated') {
+                      query = {
+                        query: {
+                          match_all: {},
+                        },
+                        sort: [
+                          {
+                            pushed: {
+                              order: 'desc',
+                            },
+                          },
+                        ],
+                      };
+                    } else if (sortBy === 'atoz') {
+                      query = {
+                        query: {
+                          match_all: {},
+                        },
+                        sort: [
+                          {
+                            name: {
+                              order: 'asc',
+                            },
+                          },
+                        ],
+                      };
+                    } else if (sortBy === 'ztoa') {
+                      query = {
+                        query: {
+                          match_all: {},
+                        },
+                        sort: [
+                          {
+                            name: {
+                              order: 'desc',
+                            },
+                          },
+                        ],
+                      };
+                    }
+
+                    console.log('query for ', sortBy, ': ', query);
+                    return query;
+                  }}
                 />
               </View>
             </View>
           </ScrollView>
-          <View
-            style={[
-              !showNav ? styles.flex : styles.none,
-              {
-                // backgroundColor: 'grey',
-                position: 'absolute',
-                bottom: 20,
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-              },
-            ]}
-          >
-            <View style={styles.controls}>
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderColor: COLORS.lightblue,
-                  backgroundColor: '#e6f2ff',
-                  width: 150,
-                }}
-              >
-                <Picker
-                  iosHeader="Sort by"
-                  mode="dropdown"
-                  placeholder="Sort by"
-                  selectedValue={this.state.selected1}
-                  onValueChange={this.onValueChange}
-                >
-                  <Picker.Item label="Best Match" value="key0" key="key0" />
-                  <Picker.Item label="Most Stars" value="key1" key="key1" />
-                  <Picker.Item label="Fewest Stars" value="key2" key="key2" />
-                  <Picker.Item label="Most Forks" value="key3" key="key3" />
-                  <Picker.Item label="Recently Updated" value="key4" key="key4" />
-                  <Picker.Item label="A to Z" value="key5" key="key5" />
-                </Picker>
-              </View>
-            </View>
-          </View>
         </Container>
       </ReactiveBase>
     );
