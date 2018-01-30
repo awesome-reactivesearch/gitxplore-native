@@ -4,7 +4,7 @@
     "icon": "./icon.png",
     "version": "1.0.0",
     "slug": "gitxplore",
-    "sdkVersion": "23.0.0",
+    "sdkVersion": "24.0.0",
     "primaryColor": "#F8F8F8",
     "ios": {
       "bundleIdentifier": "com.appbaseio.gitxplore"

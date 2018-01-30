@@ -16,9 +16,9 @@
   "dependencies": {
     "@appbaseio/reactivebase-native": "^0.3.1",
     "@expo/vector-icons": "^6.2.2",
-    "expo": "^23.0.4",
+    "expo": "24.0.0",
     "react": "16.0.0",
-    "react-native": "0.50.3",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-24.0.0.tar.gz",
     "react-native-communications": "^2.2.1"
   },
   "devDependencies": {
