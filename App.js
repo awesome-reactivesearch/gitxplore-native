@@ -1,37 +1,38 @@
 import Expo from 'expo';
 import React, { Component } from 'react';
 import {
-  Image,
-  View,
-  ScrollView,
-  StyleSheet,
-  Platform,
   Dimensions,
-  StatusBar,
   FlatList,
+  Image,
+  Platform,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import {
   Body,
-  Header,
-  Text,
-  Title,
-  Container,
-  Content,
   Button,
-  H3,
   Card,
   CardItem,
-  Thumbnail,
+  Container,
+  Content,
+  H3,
+  Header,
+  Picker,
   Spinner,
+  Text,
+  Thumbnail,
+  Title,
 } from 'native-base';
 import { web } from 'react-native-communications';
 import {
-  ReactiveBase,
   DataSearch,
+  ReactiveBase,
+  ReactiveList,
   SingleDropdownList,
   SingleDropdownRange,
-  ReactiveList,
 } from '@appbaseio/reactivebase-native';
 
 import { Ionicons as Icon, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -139,6 +140,7 @@ class App extends Component {
     showNav: false,
     isReady: false,
     statusBarColor: COLORS.secondary,
+    selected1: 'key1',
   };
 
   async componentWillMount() {
@@ -151,6 +153,12 @@ class App extends Component {
     this.setState({ isReady: true });
   }
 
+  onValueChange = value => {
+    this.setState({
+      selected1: value,
+    });
+  };
+
   handleToggleFilters = () => {
     const showNav = !this.state.showNav;
     this.setState({
@@ -160,9 +168,16 @@ class App extends Component {
 
   itemCardMarkup = item => (
     <TouchableOpacity onPress={() => web(item.url)} style={{ width: '100%' }}>
-      <View style={{ paddingHorizontal: 10, paddingVertical: 10, width: '100%' }}>
-        <Card>
-          <CardItem>
+      <View
+        style={{
+          paddingHorizontal: 10,
+          paddingVertical: 10,
+          width: '100%',
+          overflow: 'hidden',
+        }}
+      >
+        <Card style={{ overflow: 'hidden' }}>
+          <CardItem style={{ overflow: 'hidden' }}>
             <Body
               style={{
                 alignItems: 'center',
@@ -177,6 +192,7 @@ class App extends Component {
                   justifyContent: 'flex-start',
                   flex: 1,
                   width: '100%',
+                  overflow: 'hidden',
                 }}
               >
                 <Thumbnail source={{ uri: item.avatar }} />
@@ -334,12 +350,13 @@ class App extends Component {
           {
             height: deviceHeight,
             backgroundColor: COLORS.primary,
+            paddingTop: 25,
           },
         ]}
       >
         <ScrollView>
           <View style={styles.controls}>
-            <Text style={{ color: 'white', paddingBottom: 10 }}>Language</Text>
+            <Text style={{ color: COLORS.blue, paddingBottom: 10 }}>Language</Text>
             <View style={{ borderWidth: 1, borderColor: COLORS.lightblue }}>
               <SingleDropdownList
                 title="Language"
@@ -353,7 +370,7 @@ class App extends Component {
           </View>
 
           <View style={styles.controls}>
-            <Text style={{ color: 'white', paddingBottom: 10 }}>Select topics</Text>
+            <Text style={{ color: COLORS.blue, paddingBottom: 10 }}>Select topics</Text>
             <View style={{ borderWidth: 1, borderColor: COLORS.lightblue }}>
               <SingleDropdownList
                 title="Language"
@@ -367,7 +384,7 @@ class App extends Component {
           </View>
 
           <View style={styles.controls}>
-            <Text style={{ color: 'white', paddingBottom: 10 }}>Repo last active</Text>
+            <Text style={{ color: COLORS.blue, paddingBottom: 10 }}>Repo last active</Text>
             <View style={{ borderWidth: 1, borderColor: COLORS.lightblue }}>
               <SingleDropdownRange
                 title="Repo last active"
@@ -480,6 +497,46 @@ class App extends Component {
               </View>
             </View>
           </ScrollView>
+          <View
+            style={[
+              !showNav ? styles.flex : styles.none,
+              {
+                // backgroundColor: 'grey',
+                position: 'absolute',
+                bottom: 20,
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+              },
+            ]}
+          >
+            <View style={styles.controls}>
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderColor: COLORS.lightblue,
+                  backgroundColor: '#e6f2ff',
+                  width: 150,
+                }}
+              >
+                <Picker
+                  iosHeader="Sort by"
+                  mode="dropdown"
+                  placeholder="Sort by"
+                  selectedValue={this.state.selected1}
+                  onValueChange={this.onValueChange}
+                >
+                  <Picker.Item label="Best Match" value="key0" key="key0" />
+                  <Picker.Item label="Most Stars" value="key1" key="key1" />
+                  <Picker.Item label="Fewest Stars" value="key2" key="key2" />
+                  <Picker.Item label="Most Forks" value="key3" key="key3" />
+                  <Picker.Item label="Recently Updated" value="key4" key="key4" />
+                  <Picker.Item label="A to Z" value="key5" key="key5" />
+                </Picker>
+              </View>
+            </View>
+          </View>
         </Container>
       </ReactiveBase>
     );
