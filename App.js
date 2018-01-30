@@ -356,7 +356,7 @@ class App extends Component {
       >
         <ScrollView>
           <View style={styles.controls}>
-            <Text style={{ color: COLORS.blue, paddingBottom: 10 }}>Language</Text>
+            <Text style={{ color: COLORS.blue, paddingBottom: 8, paddingTop: 2 }}>Language</Text>
             <View style={{ borderWidth: 1, borderColor: COLORS.lightblue }}>
               <SingleDropdownList
                 title="Language"
@@ -370,7 +370,7 @@ class App extends Component {
           </View>
 
           <View style={styles.controls}>
-            <Text style={{ color: COLORS.blue, paddingBottom: 10 }}>Select topics</Text>
+            <Text style={{ color: COLORS.blue, paddingBottom: 8, paddingTop: 2 }}>Select topics</Text>
             <View style={{ borderWidth: 1, borderColor: COLORS.lightblue }}>
               <SingleDropdownList
                 title="Language"
@@ -384,7 +384,7 @@ class App extends Component {
           </View>
 
           <View style={styles.controls}>
-            <Text style={{ color: COLORS.blue, paddingBottom: 10 }}>Repo last active</Text>
+            <Text style={{ color: COLORS.blue, paddingBottom: 8, paddingTop: 2 }}>Repo last active</Text>
             <View style={{ borderWidth: 1, borderColor: COLORS.lightblue }}>
               <SingleDropdownRange
                 title="Repo last active"
@@ -428,7 +428,7 @@ class App extends Component {
           alignItems: 'center',
           backgroundColor: COLORS.secondary,
           padding: 20,
-          paddingTop: iOS ? 30 : 20,
+          paddingTop: 30,
           borderBottomColor: COLORS.seperator,
           borderBottomWidth: 0.5,
         }}
@@ -629,7 +629,6 @@ class App extends Component {
                       };
                     }
 
-                    console.log('query for ', sortBy, ': ', query);
                     return query;
                   }}
                 />

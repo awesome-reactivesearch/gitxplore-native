@@ -9,6 +9,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "primaryColor": "#ffffff",
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
@@ -16,6 +17,9 @@
     },
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "androidStatusBar": {
+			"backgroundColor": "#ffffff"
+		}
   }
 }
