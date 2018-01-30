@@ -2,7 +2,7 @@
   "name": "gitxplore-native",
   "version": "0.1.0",
   "private": true,
-  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "react-native-scripts start",
     "eject": "react-native-scripts eject",
@@ -16,9 +16,9 @@
   "dependencies": {
     "@appbaseio/reactivebase-native": "^0.3.1",
     "@expo/vector-icons": "^6.2.2",
-    "expo": "24.0.0",
-    "react": "16.0.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-24.0.0.tar.gz",
+    "expo": "^25.0.0",
+    "react": "16.2.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
     "react-native-communications": "^2.2.1"
   },
   "devDependencies": {
