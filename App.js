@@ -428,7 +428,7 @@ class App extends Component {
           alignItems: 'center',
           backgroundColor: COLORS.secondary,
           padding: 20,
-          paddingTop: 30,
+          paddingTop: iOS ? 30 : 20,
           borderBottomColor: COLORS.seperator,
           borderBottomWidth: 0.5,
         }}
