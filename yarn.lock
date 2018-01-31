@@ -2,13 +2,21 @@
 # yarn lockfile v1
 
 
-"@appbaseio/reactivebase-native@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@appbaseio/reactivebase-native/-/reactivebase-native-0.3.1.tgz#1b2646212875d7bd29cfbefca5a8f3a2544e62c6"
+"@appbaseio/reactivecore@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@appbaseio/reactivecore/-/reactivecore-1.3.1.tgz#319c2cb2242427ae626cb4b57435bfef2d4a8f94"
   dependencies:
-    "@appbaseio/reactivecore" "^1.2.5"
+    prop-types "^15.6.0"
+    redux "^3.7.2"
+    redux-thunk "^2.2.0"
+
+"@appbaseio/reactivesearch-native@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@appbaseio/reactivesearch-native/-/reactivesearch-native-0.4.0.tgz#71f5f59f3a89754c9045d03e3cb1dab6099bf327"
+  dependencies:
+    "@appbaseio/reactivecore" "^1.3.1"
     "@ptomasroos/react-native-multi-slider" "^0.0.11"
-    appbase-js "^2.2.1"
+    appbase-js "^2.2.8"
     native-base "^2.3.3"
     prop-types "^15.6.0"
     react-native-calendars "^1.16.1"
@@ -16,14 +24,6 @@
     redux "^3.7.2"
     redux-thunk "^2.2.0"
     xdate "^0.8.2"
-
-"@appbaseio/reactivecore@^1.2.5":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@appbaseio/reactivecore/-/reactivecore-1.3.1.tgz#319c2cb2242427ae626cb4b57435bfef2d4a8f94"
-  dependencies:
-    prop-types "^15.6.0"
-    redux "^3.7.2"
-    redux-thunk "^2.2.0"
 
 "@expo/bunyan@1.8.10", "@expo/bunyan@^1.8.10":
   version "1.8.10"
@@ -247,7 +247,7 @@ anymatch@^1.3.0:
     micromatch "^2.1.5"
     normalize-path "^2.0.0"
 
-appbase-js@^2.2.1:
+appbase-js@^2.2.8:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/appbase-js/-/appbase-js-2.2.8.tgz#025b6a73c9dc8a41e07e2a5eb470e8b14f324694"
   dependencies:

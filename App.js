@@ -33,7 +33,7 @@ import {
   ReactiveList,
   SingleDropdownList,
   SingleDropdownRange,
-} from '@appbaseio/reactivebase-native';
+} from '@appbaseio/reactivesearch-native';
 
 import { Ionicons as Icon, MaterialCommunityIcons } from '@expo/vector-icons';
 
