@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "gitxplore-native",
-    "description": "This project is really great.",
-    "slug": "gitxplore-native",
+    "name": "GitXplore",
+    "description": "GitHub repo explorer app built with ReactiveSearch",
+    "slug": "gitxplore",
     "privacy": "public",
     "sdkVersion": "25.0.0",
     "platforms": ["ios", "android"],
@@ -10,11 +10,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#ffffff",
-    "splash": {
-      "image": "./assets/icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
       "supportsTablet": true
     },
