@@ -6,7 +6,7 @@
     "privacy": "public",
     "sdkVersion": "25.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#ffffff",
@@ -17,7 +17,8 @@
       "bundleIdentifier": "com.appbaseio.gitxplore"
     },
     "android": {
-      "package": "com.appbaseio.gitxplore"
+      "package": "com.appbaseio.gitxplore",
+      "versionCode": 2
     }
   }
 }
