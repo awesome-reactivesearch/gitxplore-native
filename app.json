@@ -10,11 +10,14 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#ffffff",
-    "ios": {
-      "supportsTablet": true
-    },
     "androidStatusBar": {
-			"backgroundColor": "#ffffff"
-		}
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "bundleIdentifier": "com.appbaseio.gitxplore"
+    },
+    "android": {
+      "package": "com.appbaseio.gitxplore"
+    }
   }
 }
