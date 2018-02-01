@@ -439,7 +439,7 @@ class App extends Component {
             dataField={['name', 'description', 'name', 'fullname', 'owner', 'topics']}
             // debounce={300}
             autosuggest={false}
-            placeholder="🔍  Search Repos"
+            placeholder="Search Repos"
           />
         </View>
         <View>
