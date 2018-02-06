@@ -124,6 +124,13 @@ class App extends Component {
     />
   );
 
+  handleToggleFilters = () => {
+    const showNav = !this.state.showNav;
+    this.setState({
+      showNav,
+    });
+  };
+
   kFormatter = num => (num > 100 ? `${(num / 1000).toFixed(1)}k` : num);
 
   itemCardMarkup = item => (
