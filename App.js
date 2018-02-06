@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import {
   Dimensions,
   FlatList,
-  Image,
   Platform,
   ScrollView,
   StatusBar,
@@ -17,14 +16,10 @@ import {
   Card,
   CardItem,
   Container,
-  Content,
-  H3,
-  Header,
   Picker,
   Spinner,
   Text,
   Thumbnail,
-  Title,
 } from 'native-base';
 import { web } from 'react-native-communications';
 import {
@@ -37,9 +32,9 @@ import {
 
 import { Ionicons as Icon, MaterialCommunityIcons } from '@expo/vector-icons';
 
-var { height: deviceHeight, width: deviceWidth } = Dimensions.get('window');
+let { height: deviceHeight, width: deviceWidth } = Dimensions.get('window'); // eslint-disable-line
 if (Platform.OS === 'android') {
-  deviceHeight = deviceHeight - StatusBar.currentHeight;
+  deviceHeight -= StatusBar.currentHeight;
 }
 
 const APPBASE_CONFIG = {
@@ -78,49 +73,13 @@ const commons = {
   },
 };
 
-const S = {
-  fullWidth: {
-    width: deviceWidth,
-  },
-  container: {
-    flex: 1,
-  },
-  column: {
-    flexDirection: 'column',
-  },
-  alignCenter: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-};
-
 const styles = StyleSheet.create({
   container: {
     padding: 0,
   },
-  header: {
-    backgroundColor: COLORS.secondary,
-  },
-  headerIcon: {
-    paddingLeft: 5,
-    paddingRight: 10,
-    paddingTop: 3,
-    color: COLORS.secondary,
-  },
-  headerBody: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  headerTitle: {
-    color: COLORS.secondary,
-  },
   controls: {
     ...commons.padding2,
     paddingTop: 0,
-    // alignItems: "stretch",
-  },
-  results: {
-    ...commons.padding2,
   },
   none: {
     display: 'none',
@@ -128,43 +87,44 @@ const styles = StyleSheet.create({
   flex: {
     display: 'flex',
   },
-  searchBooksContainer: {
-    paddingHorizontal: 20,
-    backgroundColor: COLORS.primary,
-  },
 });
 
 class App extends Component {
-  state = {
-    topics: [],
-    showNav: false,
-    isReady: false,
-    statusBarColor: COLORS.secondary,
-    sortBy: 'bestMatch',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showNav: false,
+      isReady: false,
+      sortBy: 'bestMatch',
+    };
+  }
 
   async componentWillMount() {
     await Expo.Font.loadAsync({
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-      Ionicons: require('native-base/Fonts/Ionicons.ttf'),
+      Roboto: require('native-base/Fonts/Roboto.ttf'), // eslint-disable-line
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'), // eslint-disable-line
+      Ionicons: require('native-base/Fonts/Ionicons.ttf'), // eslint-disable-line
     });
 
     this.setState({ isReady: true });
   }
 
-  onValueChange = value => {
+  onValueChange = (value) => {
     this.setState({
       sortBy: value,
     });
   };
 
-  handleToggleFilters = () => {
-    const showNav = !this.state.showNav;
-    this.setState({
-      showNav,
-    });
-  };
+  onAllData = items => (
+    <FlatList
+      style={{ width: '100%' }}
+      data={items || []}
+      keyExtractor={item => item._id} // eslint-disable-line
+      renderItem={({ item }) => this.itemCardMarkup(item)}
+    />
+  );
+
+  kFormatter = num => (num > 100 ? `${(num / 1000).toFixed(1)}k` : num);
 
   itemCardMarkup = item => (
     <TouchableOpacity onPress={() => web(item.url)} style={{ width: '100%' }}>
@@ -183,7 +143,6 @@ class App extends Component {
                 alignItems: 'center',
                 flex: 1,
                 overflow: 'hidden',
-                // backgroundColor: 'lightgrey',
               }}
             >
               <View
@@ -324,25 +283,8 @@ class App extends Component {
     </TouchableOpacity>
   );
 
-  kFormatter = num => (num > 100 ? (num / 1000).toFixed(1) + 'k' : num);
-
-  onAllData = (items, streamData, loadMore) => (
-    <FlatList
-      style={{ width: '100%' }}
-      data={items || []}
-      keyExtractor={item => item._id}
-      renderItem={({ item }) => this.itemCardMarkup(item)}
-      // onEndReachedThreshold={0.5}
-      // onEndReached={loadMore}
-    />
-  );
-
-  onData = item => {
-    return this.itemCardMarkup(item);
-  };
-
   renderControls = () => {
-    let { showNav, topics } = this.state;
+    const { showNav } = this.state;
     return (
       <View
         style={[
@@ -370,7 +312,9 @@ class App extends Component {
           </View>
 
           <View style={styles.controls}>
-            <Text style={{ color: COLORS.blue, paddingBottom: 8, paddingTop: 2 }}>Select topics</Text>
+            <Text style={{ color: COLORS.blue, paddingBottom: 8, paddingTop: 2 }}>
+              Select topics
+            </Text>
             <View style={{ borderWidth: 1, borderColor: COLORS.lightblue }}>
               <SingleDropdownList
                 title="Language"
@@ -384,7 +328,9 @@ class App extends Component {
           </View>
 
           <View style={styles.controls}>
-            <Text style={{ color: COLORS.blue, paddingBottom: 8, paddingTop: 2 }}>Repo last active</Text>
+            <Text style={{ color: COLORS.blue, paddingBottom: 8, paddingTop: 2 }}>
+              Repo last active
+            </Text>
             <View style={{ borderWidth: 1, borderColor: COLORS.lightblue }}>
               <SingleDropdownRange
                 title="Repo last active"
@@ -410,7 +356,7 @@ class App extends Component {
   render = () => {
     const iOS = Platform.OS === 'ios';
 
-    let { statusBarColor, isReady, showNav, topics } = this.state;
+    const { isReady, showNav } = this.state;
 
     if (!isReady) {
       return (
@@ -437,7 +383,6 @@ class App extends Component {
           <DataSearch
             componentId="repo"
             dataField={['name', 'description', 'name', 'fullname', 'owner', 'topics']}
-            // debounce={300}
             autosuggest={false}
             placeholder="Search Repos"
           />
@@ -488,7 +433,6 @@ class App extends Component {
                   style={{
                     borderWidth: 1,
                     borderColor: COLORS.lightblue,
-                    // backgroundColor: '#e6f2ff',
                     width: 150,
                   }}
                 >
@@ -541,14 +485,14 @@ class App extends Component {
                   }}
                   showResultStats={false}
                   defaultQuery={() => {
-                    let { sortBy } = this.state;
+                    const { sortBy } = this.state;
 
                     let query = {
                       query: {
                         match_all: {},
                       },
                     };
-                    
+
                     if (sortBy === 'mostStars') {
                       query = {
                         query: {
