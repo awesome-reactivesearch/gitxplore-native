@@ -8,7 +8,8 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "node node_modules/jest/bin/jest.js --watch"
+    "test": "node node_modules/jest/bin/jest.js --watch",
+    "lint": "eslint ."
   },
   "jest": {
     "preset": "jest-expo"
@@ -22,12 +23,15 @@
     "react-native-communications": "^2.2.1"
   },
   "devDependencies": {
-    "eslint": "^4.10.0",
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.17.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.5.1",
+    "eslint-plugin-react": "^7.6.1",
     "jest-expo": "23.0.0",
+    "prettier-eslint": "^8.8.1",
     "react-native-scripts": "1.8.1",
     "react-test-renderer": "16.0.0"
   }
